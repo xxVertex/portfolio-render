@@ -1,0 +1,102 @@
+.resume-page { padding-top: 120px; padding-bottom: 120px; }
+.resume-controls {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  padding: 60px 0 40px; flex-wrap: wrap; gap: 20px;
+}
+
+/* Resume document */
+.resume-doc {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.rdoc__header {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  padding: 40px 40px 32px;
+  border-bottom: 1px solid var(--border);
+  gap: 32px;
+  flex-wrap: wrap;
+  background: linear-gradient(135deg, var(--bg2) 0%, var(--bg3) 100%);
+  position: relative;
+  overflow: hidden;
+}
+.rdoc__header::after {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(184,255,87,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.rdoc__name { font-family: var(--display); font-size: 36px; font-weight: 800; letter-spacing: -1px; margin-bottom: 4px; }
+.rdoc__title { font-size: 14px; color: var(--accent); font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 12px; }
+.rdoc__bio { font-size: 14px; color: var(--text2); max-width: 440px; line-height: 1.6; }
+.rdoc__header-right { display: flex; flex-direction: column; gap: 10px; flex-shrink: 0; }
+.rdoc__contact-item {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; color: var(--text2);
+  transition: color 0.2s;
+}
+.rdoc__contact-item:hover { color: var(--accent); }
+
+.rdoc__body { display: grid; grid-template-columns: 1fr 280px; }
+.rdoc__main { padding: 32px 40px; border-right: 1px solid var(--border); }
+.rdoc__sidebar { padding: 32px 28px; }
+
+.rdoc__section { margin-bottom: 32px; }
+.rdoc__section-title {
+  font-family: var(--display);
+  font-size: 13px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--accent);
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.rdoc__item { margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+.rdoc__item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+.rdoc__item-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; gap: 12px; }
+.rdoc__item-role { font-size: 15px; font-weight: 600; margin-bottom: 2px; }
+.rdoc__item-sub { font-weight: 400; color: var(--text2); }
+.rdoc__item-company { font-size: 13px; color: var(--text2); }
+.rdoc__item-period {
+  font-size: 11px; color: var(--text3);
+  white-space: nowrap;
+  background: var(--bg3); border: 1px solid var(--border);
+  padding: 3px 10px; border-radius: 99px;
+  flex-shrink: 0;
+}
+.rdoc__item-desc { font-size: 13px; color: var(--text2); line-height: 1.65; margin-bottom: 8px; }
+.rdoc__tags { display: flex; gap: 5px; flex-wrap: wrap; }
+.rdoc__tag { font-size: 10px; background: var(--bg3); border: 1px solid var(--border); color: var(--text2); padding: 2px 8px; border-radius: 99px; }
+.rdoc__ext { color: var(--text3); transition: color 0.2s; flex-shrink: 0; margin-top: 2px; }
+.rdoc__ext:hover { color: var(--accent); }
+
+/* Sidebar */
+.rdoc__skill { margin-bottom: 14px; }
+.rdoc__skill-header { display: flex; justify-content: space-between; font-size: 13px; font-weight: 500; margin-bottom: 6px; }
+.rdoc__skill-score { color: var(--text2); font-size: 12px; }
+.rdoc__skill-track { height: 3px; background: var(--bg3); border-radius: 99px; overflow: hidden; }
+.rdoc__skill-fill { height: 100%; background: linear-gradient(to right, var(--accent), var(--accent2)); border-radius: 99px; }
+
+.rdoc__stack { display: flex; flex-wrap: wrap; gap: 6px; }
+.rdoc__stack-item { font-size: 11px; background: var(--bg3); border: 1px solid var(--border); color: var(--text2); padding: 4px 10px; border-radius: 99px; }
+
+.rdoc__lang { display: flex; flex-direction: column; gap: 8px; }
+.rdoc__lang-item { display: flex; justify-content: space-between; font-size: 13px; }
+.rdoc__lang-level { color: var(--text2); }
+
+@media (max-width: 900px) {
+  .rdoc__body { grid-template-columns: 1fr; }
+  .rdoc__main { border-right: none; border-bottom: 1px solid var(--border); }
+}
+@media (max-width: 600px) {
+  .rdoc__header { padding: 24px; }
+  .rdoc__main { padding: 24px; }
+  .rdoc__sidebar { padding: 24px; }
+  .rdoc__name { font-size: 26px; }
+}

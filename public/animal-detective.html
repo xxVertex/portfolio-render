@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>🔍 Animal Detective</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet" />
+<style>
+  :root{--yellow:#FFD93D;--orange:#FF6B35;--pink:#FF6B9D;--purple:#A855F7;--green:#22C55E;--bg:#FFF8F0;--text:#1E1B4B;--muted:#6B7280;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Nunito',sans-serif;background:var(--bg);background-image:radial-gradient(circle at 10% 10%,#FFD93D33 0%,transparent 40%),radial-gradient(circle at 90% 20%,#FF6B9D22 0%,transparent 40%);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:20px 16px 40px;}
+  .header{text-align:center;margin-bottom:24px;}
+  .header h1{font-family:'Baloo 2',cursive;font-size:clamp(2rem,7vw,3.2rem);font-weight:800;color:var(--text);}
+  .header h1 span{background:linear-gradient(135deg,var(--orange),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .header p{font-size:1.1rem;color:var(--muted);margin-top:6px;font-weight:700;}
+  .scorebar{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;justify-content:center;}
+  .score-pill{background:white;border-radius:999px;padding:8px 20px;font-weight:900;font-size:1rem;color:var(--text);box-shadow:0 4px 14px #0001;display:flex;align-items:center;gap:6px;}
+  .card{width:100%;max-width:580px;background:white;border-radius:28px;padding:28px 28px 24px;box-shadow:0 8px 40px #0001,0 0 0 2px #FFD93D44;position:relative;overflow:hidden;}
+  .card::before{content:'';position:absolute;top:0;left:0;right:0;height:6px;background:linear-gradient(90deg,var(--yellow),var(--orange),var(--pink),var(--purple));border-radius:28px 28px 0 0;}
+  .animal-display{text-align:center;margin-bottom:16px;}
+  .animal-emoji{font-size:5rem;display:inline-block;animation:wiggle 2s ease-in-out infinite;filter:drop-shadow(0 8px 16px #0002);}
+  .animal-emoji.hidden{filter:blur(12px) drop-shadow(0 8px 16px #0002);}
+  .animal-emoji.revealed{filter:none;animation:pop 0.4s cubic-bezier(.34,1.56,.64,1);}
+  .clues-label{font-size:.8rem;font-weight:900;text-transform:uppercase;letter-spacing:1.5px;color:var(--purple);margin-bottom:10px;}
+  .clue-bubble{background:#F5F3FF;border-left:4px solid var(--purple);border-radius:0 12px 12px 0;padding:10px 14px;margin-bottom:8px;font-size:1rem;color:var(--text);font-weight:700;opacity:0;animation:slideIn .4s ease forwards;}
+  .clue-num{font-size:.75rem;color:var(--purple);margin-right:6px;}
+  .guess-row{display:flex;gap:10px;margin-bottom:12px;}
+  .guess-input{flex:1;border:3px solid #E5E7EB;border-radius:14px;padding:12px 16px;font-family:'Nunito',sans-serif;font-size:1.1rem;font-weight:700;color:var(--text);outline:none;transition:border-color .2s,box-shadow .2s;}
+  .guess-input:focus{border-color:var(--purple);box-shadow:0 0 0 4px #A855F720;}
+  .guess-input:disabled{background:#F9FAFB;}
+  .btn{border:none;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:900;border-radius:14px;padding:12px 22px;font-size:1rem;transition:transform .1s,box-shadow .1s;}
+  .btn:active{transform:scale(.96);}
+  .btn-primary{background:linear-gradient(135deg,var(--purple),var(--pink));color:white;box-shadow:0 4px 14px #A855F740;}
+  .btn-primary:hover{transform:translateY(-1px);}
+  .btn-secondary{background:#F3F4F6;color:var(--text);}
+  .btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+  .feedback{border-radius:14px;padding:14px 16px;font-size:1rem;font-weight:700;line-height:1.5;display:none;animation:popIn .3s cubic-bezier(.34,1.56,.64,1);}
+  .feedback.show{display:block;}
+  .feedback.correct{background:#DCFCE7;color:#15803D;border:2px solid #86EFAC;}
+  .feedback.wrong{background:#FEF3C7;color:#92400E;border:2px solid #FCD34D;}
+  .feedback.hint{background:#EDE9FE;color:#6D28D9;border:2px solid #C4B5FD;}
+  .action-strip{display:flex;justify-content:space-between;align-items:center;margin-top:14px;}
+  .hint-count{font-size:.85rem;color:var(--muted);font-weight:700;}
+  .strip-btns{display:flex;gap:8px;}
+  .loading-overlay{position:absolute;inset:0;background:rgba(255,255,255,.85);border-radius:28px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;z-index:10;backdrop-filter:blur(4px);}
+  .loading-overlay.hidden{display:none;}
+  .loader{display:flex;gap:8px;}
+  .loader span{width:12px;height:12px;border-radius:50%;animation:bounce .6s ease-in-out infinite;}
+  .loader span:nth-child(1){background:var(--orange);animation-delay:0s;}
+  .loader span:nth-child(2){background:var(--pink);animation-delay:.15s;}
+  .loader span:nth-child(3){background:var(--purple);animation-delay:.3s;}
+  .loading-overlay p{font-weight:800;color:var(--purple);font-size:1.1rem;}
+  .confetti-wrap{position:fixed;inset:0;pointer-events:none;z-index:999;overflow:hidden;}
+  .confetti-piece{position:absolute;top:-20px;width:10px;height:14px;border-radius:3px;animation:fall linear forwards;}
+  .next-section{margin-top:16px;text-align:center;display:none;}
+  .next-section.show{display:block;}
+  .answer-reveal{font-size:1.1rem;font-weight:900;color:var(--text);margin-bottom:12px;}
+  .answer-reveal span{color:var(--orange);}
+  .back-link{position:fixed;top:16px;left:16px;font-family:'Nunito',sans-serif;font-weight:900;font-size:.9rem;color:var(--purple);background:white;border:2px solid var(--purple);padding:6px 14px;border-radius:999px;text-decoration:none;transition:all .2s;z-index:50;}
+  .back-link:hover{background:var(--purple);color:white;}
+  @keyframes wiggle{0%,100%{transform:rotate(-4deg);}50%{transform:rotate(4deg);}}
+  @keyframes pop{0%{transform:scale(.5);opacity:0;}60%{transform:scale(1.15);}100%{transform:scale(1);opacity:1;}}
+  @keyframes slideIn{from{opacity:0;transform:translateX(-12px);}to{opacity:1;transform:translateX(0);}}
+  @keyframes popIn{from{transform:scale(.9);opacity:0;}to{transform:scale(1);opacity:1;}}
+  @keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+  @keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:0;}}
+</style>
+</head>
+<body>
+<a href="/" class="back-link">← Portfolio</a>
+<div class="confetti-wrap" id="confetti"></div>
+<header class="header"><h1>Animal <span>Detective!</span> 🔍</h1><p>Can you guess the mystery animal? 🐾</p></header>
+<div class="scorebar">
+  <div class="score-pill">✅ <span id="score-correct">0</span> Correct</div>
+  <div class="score-pill">🔥 Streak: <span id="score-streak">0</span></div>
+  <div class="score-pill">🎮 Round <span id="score-round">1</span></div>
+</div>
+<div class="card" id="main-card">
+  <div class="loading-overlay" id="loader"><div class="loader"><span></span><span></span><span></span></div><p id="loader-text">Finding a mystery animal... 🐾</p></div>
+  <div class="animal-display"><div class="animal-emoji hidden" id="animal-emoji">❓</div></div>
+  <div class="clues-section"><div class="clues-label">🕵️ Your Clues</div><div id="clues-container"></div></div>
+  <div class="guess-row">
+    <input class="guess-input" id="guess-input" type="text" placeholder="Type your guess here..." autocomplete="off" autocorrect="off" autocapitalize="off" />
+    <button class="btn btn-primary" id="guess-btn" onclick="submitGuess()">Guess!</button>
+  </div>
+  <div class="feedback" id="feedback"></div>
+  <div class="action-strip">
+    <div class="hint-count" id="hint-count">💡 2 hints left</div>
+    <div class="strip-btns">
+      <button class="btn btn-secondary" id="hint-btn" onclick="getHint()">💡 Hint</button>
+      <button class="btn btn-secondary" id="giveup-btn" onclick="giveUp()">🏳️ Give Up</button>
+    </div>
+  </div>
+  <div class="next-section" id="next-section">
+    <p class="answer-reveal" id="answer-reveal"></p>
+    <button class="btn btn-primary" onclick="newRound()" style="font-size:1.1rem;padding:14px 30px;">🎲 Next Animal!</button>
+  </div>
+</div>
+<script>
+const state={animal:'',emoji:'',clues:[],hintsUsed:0,maxHints:2,guessesLeft:3,roundOver:false,correct:0,streak:0,round:1};
+async function callClaude(prompt,systemPrompt){const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:systemPrompt,messages:[{role:'user',content:prompt}]})});const data=await res.json();return data.content[0].text;}
+async function newRound(){state.hintsUsed=0;state.guessesLeft=3;state.roundOver=false;showLoader('Finding a mystery animal... 🐾');document.getElementById('clues-container').innerHTML='';document.getElementById('guess-input').value='';document.getElementById('guess-input').disabled=false;document.getElementById('guess-btn').disabled=false;document.getElementById('hint-btn').disabled=false;document.getElementById('giveup-btn').disabled=false;document.getElementById('feedback').className='feedback';document.getElementById('next-section').className='next-section';document.getElementById('animal-emoji').className='animal-emoji hidden';document.getElementById('animal-emoji').textContent='❓';updateHintCount();try{const raw=await callClaude('Generate a new animal guessing game round.',`You are a fun kids game host. Pick a random animal. Return ONLY valid JSON: {"animal":"name","emoji":"emoji","clue1":"easy clue","clue2":"medium clue","clue3":"hard clue"}. Do not say the animal name in clues. No markdown.`);const data=JSON.parse(raw.trim());state.animal=data.animal.toLowerCase();state.emoji=data.emoji;state.clues=[data.clue1,data.clue2,data.clue3];hideLoader();renderClues([state.clues[0]]);document.getElementById('score-round').textContent=state.round;}catch(e){hideLoader();showFeedback('Oops! Try again!','wrong');}}
+function renderClues(clues){const c=document.getElementById('clues-container');c.innerHTML='';clues.forEach((clue,i)=>{const d=document.createElement('div');d.className='clue-bubble';d.innerHTML=`<span class="clue-num">Clue ${i+1}:</span>${clue}`;c.appendChild(d);});}
+async function submitGuess(){if(state.roundOver)return;const input=document.getElementById('guess-input');const guess=input.value.trim().toLowerCase();if(!guess)return;input.value='';document.getElementById('guess-btn').disabled=true;showLoader('Checking... 🤔');try{const result=await callClaude(`Secret animal: "${state.animal}". Child guessed: "${guess}". Correct? Return ONLY JSON: {"correct":true/false,"message":"fun message with emoji"}`,'You are an enthusiastic kids game host!');const data=JSON.parse(result.trim());hideLoader();document.getElementById('guess-btn').disabled=false;if(data.correct){state.correct++;state.streak++;state.roundOver=true;state.round++;showFeedback(data.message,'correct');revealAnimal();spawnConfetti();endRound(true);}else{state.guessesLeft--;showFeedback(data.message,'wrong');if(state.guessesLeft<=0){state.streak=0;state.roundOver=true;state.round++;revealAnimal();endRound(false);}else if(state.guessesLeft===2&&state.clues.length>=2){renderClues(state.clues.slice(0,2));}}updateScoreboard();}catch(e){hideLoader();document.getElementById('guess-btn').disabled=false;showFeedback('Try again!','wrong');}}
+async function getHint(){if(state.roundOver||state.hintsUsed>=state.maxHints)return;const idx=state.hintsUsed+1;state.hintsUsed++;if(idx<state.clues.length)renderClues(state.clues.slice(0,idx+1));updateHintCount();showFeedback('💡 Here\'s another clue!','hint');if(state.hintsUsed>=state.maxHints)document.getElementById('hint-btn').disabled=true;}
+function giveUp(){if(state.roundOver)return;state.streak=0;state.roundOver=true;state.round++;revealAnimal();endRound(false);updateScoreboard();}
+function endRound(won){document.getElementById('guess-input').disabled=true;document.getElementById('guess-btn').disabled=true;document.getElementById('hint-btn').disabled=true;document.getElementById('giveup-btn').disabled=true;const r=document.getElementById('answer-reveal');r.innerHTML=won?`🎉 Amazing! The animal was a <span>${state.animal}</span>!`:`The animal was a <span>${state.animal}</span>. Better luck next time!`;document.getElementById('next-section').className='next-section show';}
+function revealAnimal(){const el=document.getElementById('animal-emoji');el.textContent=state.emoji;el.className='animal-emoji revealed';}
+function showFeedback(msg,type){const el=document.getElementById('feedback');el.textContent=msg;el.className=`feedback ${type} show`;}
+function showLoader(msg){document.getElementById('loader-text').textContent=msg;document.getElementById('loader').classList.remove('hidden');}
+function hideLoader(){document.getElementById('loader').classList.add('hidden');}
+function updateHintCount(){const l=state.maxHints-state.hintsUsed;document.getElementById('hint-count').textContent=`💡 ${l} hint${l!==1?'s':''} left`;}
+function updateScoreboard(){document.getElementById('score-correct').textContent=state.correct;document.getElementById('score-streak').textContent=state.streak;document.getElementById('score-round').textContent=state.round;}
+function spawnConfetti(){const wrap=document.getElementById('confetti');const colors=['#FFD93D','#FF6B35','#FF6B9D','#A855F7','#3B82F6','#22C55E'];for(let i=0;i<60;i++){const el=document.createElement('div');el.className='confetti-piece';el.style.left=Math.random()*100+'vw';el.style.background=colors[Math.floor(Math.random()*colors.length)];el.style.animationDuration=(0.8+Math.random()*1.4)+'s';el.style.animationDelay=(Math.random()*0.5)+'s';wrap.appendChild(el);setTimeout(()=>el.remove(),3000);}}
+document.getElementById('guess-input').addEventListener('keydown',e=>{if(e.key==='Enter')submitGuess();});
+newRound();
+</script>
+</body></html>

@@ -1,0 +1,746 @@
+<html lang="en"><head>
+    <script type="module">import { injectIntoGlobalHook } from "/@react-refresh";
+injectIntoGlobalHook(window);
+window.$RefreshReg$ = () => {};
+window.$RefreshSig$ = () => (type) => type;</script>
+
+    <script type="module" src="/@vite/client"></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Oliver Kent Santos — Full Stack Developer">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&amp;family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet">
+    <title>Oliver Kent Santos</title>
+  <style type="text/css" data-vite-dev-id="/Users/rociooli/Downloads/portfolio 2/src/components/Navbar.css">.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 24px 0;
+  transition: all 0.3s ease;
+}
+.navbar--scrolled {
+  padding: 14px 0;
+  background: rgba(14,14,14,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.navbar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.navbar__logo {
+  font-family: var(--display);
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: var(--text);
+  transition: color 0.2s;
+}
+.navbar__logo:hover { color: var(--accent); }
+.navbar__logo-bracket { color: var(--accent); }
+
+.navbar__links {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+}
+.navbar__link {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text2);
+  letter-spacing: 0.03em;
+  transition: color 0.2s;
+  position: relative;
+}
+.navbar__link::after {
+  content: '';
+  position: absolute;
+  bottom: -3px; left: 0;
+  width: 0; height: 1px;
+  background: var(--accent);
+  transition: width 0.2s;
+}
+.navbar__link:hover,
+.navbar__link--active { color: var(--text); }
+.navbar__link--active::after,
+.navbar__link:hover::after { width: 100%; }
+
+.navbar__cta {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 9px 20px;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  border-radius: 99px;
+  transition: all 0.2s;
+}
+.navbar__cta:hover {
+  background: var(--accent);
+  color: #0e0e0e;
+}
+
+.navbar__burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  padding: 4px;
+  background: none;
+  border: none;
+}
+.navbar__burger span {
+  display: block;
+  width: 22px; height: 2px;
+  background: var(--text);
+  border-radius: 99px;
+  transition: all 0.25s;
+}
+.navbar__burger span.open:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.navbar__burger span.open:nth-child(2) { opacity: 0; }
+.navbar__burger span.open:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 768px) {
+  .navbar__burger { display: flex; }
+  .navbar__links {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--bg);
+    flex-direction: column;
+    justify-content: center;
+    gap: 32px;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+  }
+  .navbar__links--open { transform: translateX(0); }
+  .navbar__link { font-size: 22px; }
+}
+</style><style type="text/css" data-vite-dev-id="/Users/rociooli/Downloads/portfolio 2/src/components/Footer.css">.footer {
+  border-top: 1px solid var(--border);
+  padding: 28px 0;
+}
+.footer__inner {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 16px;
+}
+.footer__brand { display: flex; align-items: center; gap: 10px; }
+.footer__logo { font-family: var(--display); font-weight: 800; font-size: 14px; color: var(--accent); }
+.footer__name { font-size: 13px; color: var(--text2); }
+.footer__links { display: flex; gap: 12px; }
+.footer__link {
+  color: var(--text3);
+  display: flex; align-items: center;
+  transition: color 0.2s;
+}
+.footer__link:hover { color: var(--accent); }
+.footer__copy { font-size: 12px; color: var(--text3); }
+</style><style type="text/css" data-vite-dev-id="/Users/rociooli/Downloads/portfolio 2/src/pages/Home.css">/* ── Shared reveal ─────────────────────────── */
+.reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal--delay { transition-delay: 0.15s; }
+.reveal--visible { opacity: 1; transform: none; }
+.text-accent { color: var(--accent); }
+
+/* ── Buttons ───────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 24px; border-radius: 99px;
+  font-size: 14px; font-weight: 600; letter-spacing: 0.02em;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+.btn--primary { background: var(--accent); color: #0e0e0e; }
+.btn--primary:hover { background: var(--accent2); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(184,255,87,0.25); }
+.btn--ghost { background: transparent; color: var(--text2); border: 1px solid var(--border2); }
+.btn--ghost:hover { border-color: var(--text2); color: var(--text); }
+.btn--outline { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+.btn--outline:hover { background: var(--accent); color: #0e0e0e; }
+.btn--lg { font-size: 16px; padding: 16px 32px; }
+
+/* ── Hero ──────────────────────────────────── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  padding-top: 100px;
+}
+.hero__inner { position: relative; z-index: 2; padding-top: 40px; padding-bottom: 80px; }
+
+.hero__availability {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--accent);
+  background: rgba(184,255,87,0.08);
+  border: 1px solid rgba(184,255,87,0.2);
+  padding: 6px 14px; border-radius: 99px;
+  margin-bottom: 32px;
+}
+
+.hero__title {
+  font-family: var(--display);
+  font-size: clamp(52px, 10vw, 130px);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -3px;
+  margin-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+}
+.hero__title-line--indent { padding-left: clamp(20px, 5vw, 80px); color: var(--text2); }
+.hero__dot { color: var(--accent); }
+
+.hero__sub {
+  font-size: clamp(16px, 2vw, 20px);
+  color: var(--text2);
+  max-width: 480px;
+  margin-bottom: 40px;
+  line-height: 1.6;
+}
+
+.hero__actions { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 48px; }
+
+.hero__links { display: flex; gap: 24px; flex-wrap: wrap; }
+.hero__link {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 13px; color: var(--text3);
+  transition: color 0.2s;
+}
+.hero__link:hover { color: var(--text2); }
+.hero__link--static { cursor: default; }
+
+/* Decorative grid */
+.hero__grid {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+  pointer-events: none;
+  opacity: 0.3;
+}
+.hero__grid-cell {
+  border: 0.5px solid var(--border);
+}
+
+/* Radial mask on grid */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 80% at 20% 50%, transparent 40%, var(--bg) 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hero__scroll-hint {
+  position: absolute;
+  bottom: 40px; left: 50%;
+  transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--text3);
+  animation: bobDown 2s ease-in-out infinite;
+  z-index: 2;
+}
+.hero__scroll-line {
+  width: 1px; height: 40px;
+  background: linear-gradient(to bottom, var(--text3), transparent);
+}
+@keyframes bobDown {
+  0%,100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(8px); }
+}
+
+/* ── About ─────────────────────────────────── */
+.about__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+.about__bio {
+  font-size: 17px;
+  color: var(--text2);
+  line-height: 1.7;
+  margin-bottom: 32px;
+}
+.about__right { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.about__card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  transition: border-color 0.2s;
+}
+.about__card:hover { border-color: var(--border2); }
+.about__card--accent { background: var(--accent); color: #0e0e0e; border-color: transparent; }
+.about__card--accent .about__card-label { color: rgba(0,0,0,0.5); }
+.about__card--accent .about__card-value { color: #0e0e0e; }
+.about__card-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text3); margin-bottom: 8px; }
+.about__card-value { font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+.about__card-link:hover { text-decoration: underline; }
+
+/* ── Skills ────────────────────────────────── */
+.skills__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+.skills__radar { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; }
+.skills__bars { display: flex; flex-direction: column; gap: 20px; }
+.skill-bar__header { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; font-weight: 500; }
+.skill-bar__score { color: var(--text2); }
+.skill-bar__track { height: 4px; background: var(--bg3); border-radius: 99px; overflow: hidden; }
+.skill-bar__fill {
+  height: 100%; width: 0; border-radius: 99px;
+  background: linear-gradient(to right, var(--accent), var(--accent2));
+  transition: width 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.skill-bar__fill--animated { width: var(--target); }
+
+/* ── Featured projects ─────────────────────── */
+.featured__header {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  margin-bottom: 48px; flex-wrap: wrap; gap: 16px;
+}
+.featured__all { align-self: flex-end; }
+
+.featured__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.project-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.project-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--card-color, var(--accent));
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.project-card:hover {
+  border-color: var(--border2);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+}
+.project-card:hover::before { opacity: 1; }
+.project-card__top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.project-card__emoji { font-size: 28px; line-height: 1; }
+.project-card__category {
+  font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--card-color, var(--accent));
+  background: color-mix(in srgb, var(--card-color, var(--accent)) 12%, transparent);
+  padding: 4px 10px; border-radius: 99px;
+}
+.project-card__title { font-family: var(--display); font-size: 24px; font-weight: 700; }
+.project-card__sub { font-size: 13px; color: var(--text2); }
+.project-card__desc { font-size: 14px; color: var(--text2); line-height: 1.6; flex: 1; margin-top: 4px; }
+.project-card__tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.tag {
+  font-size: 11px; font-weight: 500;
+  background: var(--bg3); color: var(--text2);
+  border: 1px solid var(--border);
+  padding: 3px 10px; border-radius: 99px;
+}
+.project-card__arrow {
+  position: absolute; bottom: 24px; right: 24px;
+  color: var(--text3);
+  transition: all 0.2s;
+}
+.project-card:hover .project-card__arrow { color: var(--card-color, var(--accent)); transform: translate(3px, -3px); }
+
+/* ── CTA ───────────────────────────────────── */
+.cta-box {
+  text-align: center;
+  padding: 80px 40px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  position: relative;
+  overflow: hidden;
+}
+.cta-box::before {
+  content: '';
+  position: absolute;
+  top: -100px; left: 50%;
+  transform: translateX(-50%);
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(184,255,87,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.cta-box__title {
+  font-family: var(--display);
+  font-size: clamp(32px, 5vw, 64px);
+  font-weight: 800;
+  letter-spacing: -2px;
+  line-height: 1.1;
+  margin: 16px 0 32px;
+}
+
+/* ── Responsive ────────────────────────────── */
+@media (max-width: 900px) {
+  .about__inner { grid-template-columns: 1fr; gap: 40px; }
+  .skills__inner { grid-template-columns: 1fr; }
+  .featured__grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .hero__title { letter-spacing: -2px; }
+  .about__right { grid-template-columns: 1fr 1fr; }
+}
+</style><style type="text/css" data-vite-dev-id="/Users/rociooli/Downloads/portfolio 2/src/pages/Projects.css">.projects-page { padding-top: 120px; padding-bottom: 120px; }
+.projects-hero { padding: 60px 0 48px; }
+.projects-title { margin-bottom: 12px; }
+.projects-sub { font-size: 17px; color: var(--text2); }
+
+.filter-bar {
+  display: flex; gap: 8px; flex-wrap: wrap;
+  margin-bottom: 48px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+.filter-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 18px; border-radius: 99px;
+  font-size: 13px; font-weight: 500;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  color: var(--text2);
+  transition: all 0.18s;
+}
+.filter-btn:hover { border-color: var(--border2); color: var(--text); }
+.filter-btn--active { background: var(--accent); color: #0e0e0e; border-color: transparent; }
+.filter-btn__count {
+  font-size: 10px; font-weight: 700;
+  background: rgba(0,0,0,0.15);
+  padding: 1px 6px; border-radius: 99px;
+}
+.filter-btn--active .filter-btn__count { background: rgba(0,0,0,0.2); }
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.pcard {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  height: 100%;
+}
+.pcard:hover {
+  border-color: var(--col, var(--accent));
+  transform: translateY(-4px);
+  box-shadow: 0 20px 48px rgba(0,0,0,0.5);
+}
+.pcard__glow {
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 160px; height: 160px;
+  border-radius: 50%;
+  background: var(--col, var(--accent));
+  opacity: 0;
+  filter: blur(60px);
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+.pcard:hover .pcard__glow { opacity: 0.12; }
+
+.pcard__header { display: flex; justify-content: space-between; align-items: center; }
+.pcard__emoji { font-size: 32px; }
+.pcard__cat {
+  font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--col, var(--accent));
+  border: 1px solid currentColor;
+  padding: 3px 10px; border-radius: 99px;
+  opacity: 0.8;
+}
+.pcard__title { font-family: var(--display); font-size: 26px; font-weight: 700; }
+.pcard__subtitle { font-size: 13px; color: var(--text2); }
+.pcard__desc { font-size: 14px; color: var(--text2); line-height: 1.65; flex: 1; }
+.pcard__tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.pcard__footer { margin-top: 8px; padding-top: 16px; border-top: 1px solid var(--border); display: flex; gap: 16px; align-items: center; }
+.pcard__link {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 13px; font-weight: 500; color: var(--text2);
+  transition: color 0.2s;
+}
+.pcard__link:hover { color: var(--col, var(--accent)); }
+.pcard__link--live { color: var(--col, var(--accent)); font-weight: 700; }
+
+@media (max-width: 600px) {
+  .projects-grid { grid-template-columns: 1fr; }
+}
+</style><style type="text/css" data-vite-dev-id="/Users/rociooli/Downloads/portfolio 2/src/pages/Resume.css">.resume-page { padding-top: 120px; padding-bottom: 120px; }
+.resume-controls {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  padding: 60px 0 40px; flex-wrap: wrap; gap: 20px;
+}
+
+/* Resume document */
+.resume-doc {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.rdoc__header {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  padding: 40px 40px 32px;
+  border-bottom: 1px solid var(--border);
+  gap: 32px;
+  flex-wrap: wrap;
+  background: linear-gradient(135deg, var(--bg2) 0%, var(--bg3) 100%);
+  position: relative;
+  overflow: hidden;
+}
+.rdoc__header::after {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(184,255,87,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.rdoc__name { font-family: var(--display); font-size: 36px; font-weight: 800; letter-spacing: -1px; margin-bottom: 4px; }
+.rdoc__title { font-size: 14px; color: var(--accent); font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 12px; }
+.rdoc__bio { font-size: 14px; color: var(--text2); max-width: 440px; line-height: 1.6; }
+.rdoc__header-right { display: flex; flex-direction: column; gap: 10px; flex-shrink: 0; }
+.rdoc__contact-item {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; color: var(--text2);
+  transition: color 0.2s;
+}
+.rdoc__contact-item:hover { color: var(--accent); }
+
+.rdoc__body { display: grid; grid-template-columns: 1fr 280px; }
+.rdoc__main { padding: 32px 40px; border-right: 1px solid var(--border); }
+.rdoc__sidebar { padding: 32px 28px; }
+
+.rdoc__section { margin-bottom: 32px; }
+.rdoc__section-title {
+  font-family: var(--display);
+  font-size: 13px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--accent);
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.rdoc__item { margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+.rdoc__item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+.rdoc__item-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; gap: 12px; }
+.rdoc__item-role { font-size: 15px; font-weight: 600; margin-bottom: 2px; }
+.rdoc__item-sub { font-weight: 400; color: var(--text2); }
+.rdoc__item-company { font-size: 13px; color: var(--text2); }
+.rdoc__item-period {
+  font-size: 11px; color: var(--text3);
+  white-space: nowrap;
+  background: var(--bg3); border: 1px solid var(--border);
+  padding: 3px 10px; border-radius: 99px;
+  flex-shrink: 0;
+}
+.rdoc__item-desc { font-size: 13px; color: var(--text2); line-height: 1.65; margin-bottom: 8px; }
+.rdoc__tags { display: flex; gap: 5px; flex-wrap: wrap; }
+.rdoc__tag { font-size: 10px; background: var(--bg3); border: 1px solid var(--border); color: var(--text2); padding: 2px 8px; border-radius: 99px; }
+.rdoc__ext { color: var(--text3); transition: color 0.2s; flex-shrink: 0; margin-top: 2px; }
+.rdoc__ext:hover { color: var(--accent); }
+
+/* Sidebar */
+.rdoc__skill { margin-bottom: 14px; }
+.rdoc__skill-header { display: flex; justify-content: space-between; font-size: 13px; font-weight: 500; margin-bottom: 6px; }
+.rdoc__skill-score { color: var(--text2); font-size: 12px; }
+.rdoc__skill-track { height: 3px; background: var(--bg3); border-radius: 99px; overflow: hidden; }
+.rdoc__skill-fill { height: 100%; background: linear-gradient(to right, var(--accent), var(--accent2)); border-radius: 99px; }
+
+.rdoc__stack { display: flex; flex-wrap: wrap; gap: 6px; }
+.rdoc__stack-item { font-size: 11px; background: var(--bg3); border: 1px solid var(--border); color: var(--text2); padding: 4px 10px; border-radius: 99px; }
+
+.rdoc__lang { display: flex; flex-direction: column; gap: 8px; }
+.rdoc__lang-item { display: flex; justify-content: space-between; font-size: 13px; }
+.rdoc__lang-level { color: var(--text2); }
+
+@media (max-width: 900px) {
+  .rdoc__body { grid-template-columns: 1fr; }
+  .rdoc__main { border-right: none; border-bottom: 1px solid var(--border); }
+}
+@media (max-width: 600px) {
+  .rdoc__header { padding: 24px; }
+  .rdoc__main { padding: 24px; }
+  .rdoc__sidebar { padding: 24px; }
+  .rdoc__name { font-size: 26px; }
+}
+</style><style type="text/css" data-vite-dev-id="/Users/rociooli/Downloads/portfolio 2/src/index.css">@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+
+:root {
+  --bg:       #0e0e0e;
+  --bg2:      #141414;
+  --bg3:      #1c1c1c;
+  --bg4:      #242424;
+  --border:   #2a2a2a;
+  --border2:  #383838;
+  --text:     #f0ede8;
+  --text2:    #888078;
+  --text3:    #4a4540;
+  --accent:   #b8ff57;
+  --accent2:  #ceff80;
+  --accent-dim:#3a5015;
+  --red:      #ff5757;
+  --blue:     #57b8ff;
+  --display:  'Syne', sans-serif;
+  --body:     'Instrument Sans', sans-serif;
+  --radius:   8px;
+  --radius-lg:16px;
+  --shadow:   0 8px 40px rgba(0,0,0,0.5);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--body);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* Custom cursor */
+
+.cursor {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+}
+
+.cursor__dot {
+  width: 8px; height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s;
+}
+
+.cursor__ring {
+  width: 36px; height: 36px;
+  border: 1.5px solid var(--accent);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.18s ease;
+  opacity: 0.6;
+}
+
+body:has(a:hover) .cursor__ring,
+body:has(button:hover) .cursor__ring {
+  transform: translate(-50%, -50%) scale(1.6);
+  opacity: 1;
+}
+
+/* Grain overlay */
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: -50%;
+  width: 200%; height: 200%;
+  pointer-events: none;
+  z-index: 1000;
+  opacity: 0.028;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 128px;
+}
+
+a { color: inherit; text-decoration: none; }
+
+button { cursor: none; font-family: var(--body); border: none; background: none; }
+
+img { display: block; max-width: 100%; }
+
+/* Scrollbar */
+
+::-webkit-scrollbar { width: 4px; }
+
+::-webkit-scrollbar-track { background: var(--bg2); }
+
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 99px; }
+
+/* Utility */
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+
+.section { padding: 120px 0; }
+
+.section-label {
+  font-family: var(--body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+.section-title {
+  font-family: var(--display);
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -1.5px;
+  margin-bottom: 24px;
+}
+
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, var(--border), transparent);
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .container { padding: 0 20px; }
+  .section { padding: 80px 0; }
+  body { cursor: auto; }
+  .cursor { display: none; }
+}
+</style></head>
+  <body>
+    <div id="root"><div class="cursor" style="position: fixed; pointer-events: none; z-index: 9999; left: 930px; top: 499px;"><div class="cursor__dot"></div></div><div class="cursor" style="position: fixed; pointer-events: none; z-index: 9998; left: 930px; top: 499px;"><div class="cursor__ring"></div></div><nav class="navbar "><div class="navbar__inner container"><a class="navbar__logo active" href="/" aria-current="page"><span class="navbar__logo-bracket">[</span>OKS<span class="navbar__logo-bracket">]</span></a><div class="navbar__links "><a class="navbar__link navbar__link--active" href="/" aria-current="page">Home</a><a class="navbar__link " href="/projects">Projects</a><a class="navbar__link " href="/resume">Resume</a><a href="mailto:oliverkentsantos@outlook.com" class="navbar__cta">Hire me</a></div><button class="navbar__burger" aria-label="Menu"><span class=""></span><span class=""></span><span class=""></span></button></div></nav><main class="home"><section class="hero"><div class="container hero__inner"><div class="hero__availability" style="opacity: 1; transform: none;"><svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 24 24" fill="#b8ff57" stroke="#b8ff57" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle"><circle cx="12" cy="12" r="10"></circle></svg><span>Available for work</span></div><h1 class="hero__title" style="opacity: 1; transform: none;"><span class="hero__title-line">Full Stack</span><span class="hero__title-line hero__title-line--indent">Developer<span class="hero__dot">.</span></span></h1><p class="hero__sub" style="opacity: 1; transform: none;">I build things for the web — fast, clean, and with care.</p><div class="hero__actions" style="opacity: 1; transform: none;"><a class="btn btn--primary" href="/projects">View my work <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a><a href="mailto:oliverkentsantos@outlook.com" class="btn btn--ghost">Get in touch</a></div><div class="hero__links" style="opacity: 1; transform: none;"><a href="https://github.com/xxVertex" target="_blank" rel="noreferrer" class="hero__link"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg> xxVertex</a><a href="mailto:oliverkentsantos@outlook.com" class="hero__link"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg> oliverkentsantos@outlook.com</a><span class="hero__link hero__link--static"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg> Spain</span></div></div><div class="hero__grid" aria-hidden="true"><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div><div class="hero__grid-cell"></div></div><div class="hero__scroll-hint"><span>scroll</span><div class="hero__scroll-line"></div></div></section><div class="divider"></div><section class="section about"><div class="container about__inner"><div class="about__left reveal "><p class="section-label">About</p><h2 class="section-title">Hey, I'm<br><span class="text-accent">Oliver</span>.</h2><p class="about__bio">Full Stack Developer based in Spain, passionate about crafting digital experiences that are both functional and beautiful. I specialise in React, modern JavaScript, and building products from idea to deployment.</p><a class="btn btn--outline" href="/resume">View full resume <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a></div><div class="about__right reveal reveal--delay "><div class="about__card"><div class="about__card-label">Based in</div><div class="about__card-value">Spain</div></div><div class="about__card about__card--accent"><div class="about__card-label">Status</div><div class="about__card-value"><svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 24 24" fill="#0e0e0e" stroke="#0e0e0e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle"><circle cx="12" cy="12" r="10"></circle></svg> Open to opportunities</div></div><div class="about__card"><div class="about__card-label">Focus</div><div class="about__card-value">React · JS · Web</div></div><div class="about__card"><div class="about__card-label">GitHub</div><a href="https://github.com/xxVertex" target="_blank" rel="noreferrer" class="about__card-value about__card-link">@xxVertex</a></div></div></div></section><div class="divider"></div><section class="section skills"><div class="container"><p class="section-label">Skills</p><h2 class="section-title">Tech Stack</h2><div class="skills__inner reveal "><div class="skills__radar"><div class="recharts-responsive-container" style="width: 100%; height: 380px; min-width: 0px;"><div class="recharts-wrapper" style="position: relative; cursor: default; width: 100%; height: 100%; max-height: 380px; max-width: 371px;"><svg cx="50%" cy="50%" class="recharts-surface" width="371" height="380" viewBox="0 0 371 380" style="width: 100%; height: 100%;"><title></title><desc></desc><defs><clipPath id="recharts6-clip"><rect x="30" y="20" height="340" width="311"></rect></clipPath></defs><g class="recharts-polar-grid"><g class="recharts-polar-grid-angle"><line stroke="#2a2a2a" cx="185.5" cy="190" x1="185.5" y1="190" x2="185.5" y2="65.6"></line><line stroke="#2a2a2a" cx="185.5" cy="190" x1="185.5" y1="190" x2="293.2335602307842" y2="127.80000000000001"></line><line stroke="#2a2a2a" cx="185.5" cy="190" x1="185.5" y1="190" x2="293.2335602307842" y2="252.2"></line><line stroke="#2a2a2a" cx="185.5" cy="190" x1="185.5" y1="190" x2="185.5" y2="314.4"></line><line stroke="#2a2a2a" cx="185.5" cy="190" x1="185.5" y1="190" x2="77.76643976921582" y2="252.2"></line><line stroke="#2a2a2a" cx="185.5" cy="190" x1="185.5" y1="190" x2="77.76643976921584" y2="127.79999999999998"></line></g><g class="recharts-polar-grid-concentric"><path stroke="#2a2a2a" cx="185.5" cy="190" radius="0" fill="none" class="recharts-polar-grid-concentric-polygon" d="M 185.5,190L 185.5,190L 185.5,190L 185.5,190L 185.5,190L 185.5,190Z"></path><path stroke="#2a2a2a" cx="185.5" cy="190" radius="31.1" fill="none" class="recharts-polar-grid-concentric-polygon" d="M 185.5,158.9L 212.43339005769604,174.45L 212.43339005769604,205.55L 185.5,221.1L 158.56660994230396,205.55L 158.56660994230396,174.45Z"></path><path stroke="#2a2a2a" cx="185.5" cy="190" radius="62.2" fill="none" class="recharts-polar-grid-concentric-polygon" d="M 185.5,127.8L 239.3667801153921,158.9L 239.3667801153921,221.1L 185.5,252.2L 131.6332198846079,221.1L 131.6332198846079,158.89999999999998Z"></path><path stroke="#2a2a2a" cx="185.5" cy="190" radius="93.30000000000001" fill="none" class="recharts-polar-grid-concentric-polygon" d="M 185.5,96.69999999999999L 266.30017017308813,143.35L 266.30017017308813,236.65L 185.5,283.3L 104.69982982691185,236.65L 104.69982982691187,143.35Z"></path><path stroke="#2a2a2a" cx="185.5" cy="190" radius="124.4" fill="none" class="recharts-polar-grid-concentric-polygon" d="M 185.5,65.6L 293.2335602307842,127.80000000000001L 293.2335602307842,252.2L 185.5,314.4L 77.76643976921582,252.2L 77.76643976921584,127.79999999999998Z"></path></g></g><g class="recharts-layer recharts-polar-angle-axis angleAxis"><path cx="185.5" cy="190" orientation="outer" radius="124.4" fill="none" class="recharts-polygon angleAxis" d="M185.5,65.6L293.2335602307842,127.80000000000001L293.2335602307842,252.2L185.5,314.4L77.76643976921582,252.2L77.76643976921584,127.79999999999998L185.5,65.6Z"></path><g class="recharts-layer recharts-polar-angle-axis-ticks"><g class="recharts-layer recharts-polar-angle-axis-tick"><line class="angleAxis" cx="185.5" cy="190" orientation="outer" radius="124.4" fill="none" x1="185.5" y1="65.6" x2="185.5" y2="57.599999999999994"></line><text cx="185.5" cy="190" orientation="outer" radius="124.4" stroke="none" font-size="12" font-family="Instrument Sans" x="185.5" y="57.599999999999994" class="recharts-text recharts-polar-angle-axis-tick-value" text-anchor="middle" fill="#888078"><tspan x="185.5" dy="0em">React</tspan></text></g><g class="recharts-layer recharts-polar-angle-axis-tick"><line class="angleAxis" cx="185.5" cy="190" orientation="outer" radius="124.4" fill="none" x1="293.2335602307842" y1="127.80000000000001" x2="300.1617634610597" y2="123.80000000000001"></line><text cx="185.5" cy="190" orientation="outer" radius="124.4" stroke="none" font-size="12" font-family="Instrument Sans" x="300.1617634610597" y="123.80000000000001" class="recharts-text recharts-polar-angle-axis-tick-value" text-anchor="start" fill="#888078"><tspan x="300.1617634610597" dy="0em">JS/TS</tspan></text></g><g class="recharts-layer recharts-polar-angle-axis-tick"><line class="angleAxis" cx="185.5" cy="190" orientation="outer" radius="124.4" fill="none" x1="293.2335602307842" y1="252.2" x2="300.1617634610597" y2="256.2"></line><text cx="185.5" cy="190" orientation="outer" radius="124.4" stroke="none" font-size="12" font-family="Instrument Sans" x="300.1617634610597" y="256.2" class="recharts-text recharts-polar-angle-axis-tick-value" text-anchor="start" fill="#888078"><tspan x="300.1617634610597" dy="0em">CSS</tspan></text></g><g class="recharts-layer recharts-polar-angle-axis-tick"><line class="angleAxis" cx="185.5" cy="190" orientation="outer" radius="124.4" fill="none" x1="185.5" y1="314.4" x2="185.5" y2="322.4"></line><text cx="185.5" cy="190" orientation="outer" radius="124.4" stroke="none" font-size="12" font-family="Instrument Sans" x="185.5" y="322.4" class="recharts-text recharts-polar-angle-axis-tick-value" text-anchor="middle" fill="#888078"><tspan x="185.5" dy="0em">Node.js</tspan></text></g><g class="recharts-layer recharts-polar-angle-axis-tick"><line class="angleAxis" cx="185.5" cy="190" orientation="outer" radius="124.4" fill="none" x1="77.76643976921582" y1="252.2" x2="70.83823653894031" y2="256.2"></line><text cx="185.5" cy="190" orientation="outer" radius="124.4" stroke="none" font-size="12" font-family="Instrument Sans" x="70.83823653894031" y="256.2" class="recharts-text recharts-polar-angle-axis-tick-value" text-anchor="end" fill="#888078"><tspan x="70.83823653894031" dy="0em">APIs</tspan></text></g><g class="recharts-layer recharts-polar-angle-axis-tick"><line class="angleAxis" cx="185.5" cy="190" orientation="outer" radius="124.4" fill="none" x1="77.76643976921584" y1="127.79999999999998" x2="70.83823653894032" y2="123.79999999999998"></line><text cx="185.5" cy="190" orientation="outer" radius="124.4" stroke="none" font-size="12" font-family="Instrument Sans" x="70.83823653894032" y="123.79999999999998" class="recharts-text recharts-polar-angle-axis-tick-value" text-anchor="end" fill="#888078"><tspan x="70.83823653894032" dy="0em">Git/DevOps</tspan></text></g></g></g><g class="recharts-layer recharts-radar"><g class="recharts-layer recharts-radar-polygon"><path name="Score" stroke="#b8ff57" fill="#b8ff57" fill-opacity="0.15" stroke-width="2" class="recharts-polygon" d="M185.5,78.03999999999999L280.3055330030901,135.264L277.07352619616654,242.87L185.5,279.568L104.69982982691185,236.65L99.31315181537266,140.23999999999998L185.5,78.03999999999999Z"></path></g></g></svg></div></div></div><div class="skills__bars"><div class="skill-bar" style="animation-delay: 0s;"><div class="skill-bar__header"><span class="skill-bar__name">React</span><span class="skill-bar__score">90%</span></div><div class="skill-bar__track"><div class="skill-bar__fill " style="--target: 90%; transition-delay: 0.3s;"></div></div></div><div class="skill-bar" style="animation-delay: 0.06s;"><div class="skill-bar__header"><span class="skill-bar__name">JavaScript</span><span class="skill-bar__score">88%</span></div><div class="skill-bar__track"><div class="skill-bar__fill " style="--target: 88%; transition-delay: 0.36s;"></div></div></div><div class="skill-bar" style="animation-delay: 0.12s;"><div class="skill-bar__header"><span class="skill-bar__name">CSS / Design</span><span class="skill-bar__score">85%</span></div><div class="skill-bar__track"><div class="skill-bar__fill " style="--target: 85%; transition-delay: 0.42s;"></div></div></div><div class="skill-bar" style="animation-delay: 0.18s;"><div class="skill-bar__header"><span class="skill-bar__name">HTML</span><span class="skill-bar__score">92%</span></div><div class="skill-bar__track"><div class="skill-bar__fill " style="--target: 92%; transition-delay: 0.48s;"></div></div></div><div class="skill-bar" style="animation-delay: 0.24s;"><div class="skill-bar__header"><span class="skill-bar__name">Node.js</span><span class="skill-bar__score">72%</span></div><div class="skill-bar__track"><div class="skill-bar__fill " style="--target: 72%; transition-delay: 0.54s;"></div></div></div><div class="skill-bar" style="animation-delay: 0.3s;"><div class="skill-bar__header"><span class="skill-bar__name">Git</span><span class="skill-bar__score">80%</span></div><div class="skill-bar__track"><div class="skill-bar__fill " style="--target: 80%; transition-delay: 0.6s;"></div></div></div><div class="skill-bar" style="animation-delay: 0.36s;"><div class="skill-bar__header"><span class="skill-bar__name">Vite</span><span class="skill-bar__score">78%</span></div><div class="skill-bar__track"><div class="skill-bar__fill " style="--target: 78%; transition-delay: 0.66s;"></div></div></div><div class="skill-bar" style="animation-delay: 0.42s;"><div class="skill-bar__header"><span class="skill-bar__name">REST APIs</span><span class="skill-bar__score">75%</span></div><div class="skill-bar__track"><div class="skill-bar__fill " style="--target: 75%; transition-delay: 0.72s;"></div></div></div></div></div></div></section><div class="divider"></div><section class="section featured"><div class="container"><div class="featured__header"><div><p class="section-label">Work</p><h2 class="section-title">Featured<br>Projects</h2></div><a class="btn btn--ghost featured__all" href="/projects">All projects <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a></div><div class="featured__grid reveal "><a href="https://github.com/xxVertex/expense-tracker" target="_blank" rel="noreferrer" class="project-card" style="--card-color: #b8ff57; animation-delay: 0s;"><div class="project-card__top"><span class="project-card__emoji">💸</span><span class="project-card__category">App</span></div><h3 class="project-card__title">Spendr</h3><p class="project-card__sub">Expense Tracker</p><p class="project-card__desc">A full-featured personal finance tracker with category budgets, real-time alerts, spending charts, and localStorage persistence.</p><div class="project-card__tags"><span class="tag">React</span><span class="tag">Recharts</span><span class="tag">CSS</span></div><div class="project-card__arrow"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></div></a><a href="https://github.com/xxVertex/weather-app" target="_blank" rel="noreferrer" class="project-card" style="--card-color: #57b8ff; animation-delay: 0.08s;"><div class="project-card__top"><span class="project-card__emoji">☁️</span><span class="project-card__category">App</span></div><h3 class="project-card__title">Skies</h3><p class="project-card__sub">Weather App</p><p class="project-card__desc">Atmospheric weather app powered by Open-Meteo. Auto-detects location, city search with autocomplete, 24h hourly and 7-day forecast. Dynamic background themes shift with the weather.</p><div class="project-card__tags"><span class="tag">React</span><span class="tag">Open-Meteo API</span><span class="tag">CSS</span></div><div class="project-card__arrow"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></div></a><a href="https://github.com/xxVertex/pixel-runner" target="_blank" rel="noreferrer" class="project-card" style="--card-color: #e94560; animation-delay: 0.16s;"><div class="project-card__top"><span class="project-card__emoji">🕹️</span><span class="project-card__category">Game</span></div><h3 class="project-card__title">Pixel Runner</h3><p class="project-card__sub">Infinite Runner Game</p><p class="project-card__desc">A retro pixel art infinite runner built on HTML5 Canvas — no game engine. Double jump, sliding, 3 power-ups, coins, parallax backgrounds, CRT scanlines, and a top-10 leaderboard.</p><div class="project-card__tags"><span class="tag">React</span><span class="tag">Canvas API</span><span class="tag">Game Dev</span></div><div class="project-card__arrow"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></div></a><a href="https://github.com/xxVertex/world-forge" target="_blank" rel="noreferrer" class="project-card" style="--card-color: #c8a030; animation-delay: 0.24s;"><div class="project-card__top"><span class="project-card__emoji">🗺️</span><span class="project-card__category">Creative</span></div><h3 class="project-card__title">World Forge</h3><p class="project-card__sub">Procedural Map Generator</p><p class="project-card__desc">Pixel art RPG-style procedural world map generator using layered Perlin noise + fBm. Generates biomes, rivers, lakes, cities and towns — all seeded and exportable as PNG.</p><div class="project-card__tags"><span class="tag">React</span><span class="tag">Canvas API</span><span class="tag">Algorithms</span></div><div class="project-card__arrow"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></div></a></div></div></section><section class="section cta-section"><div class="container"><div class="cta-box"><p class="section-label">Contact</p><h2 class="cta-box__title">Let's build<br>something great.</h2><a href="mailto:oliverkentsantos@outlook.com" class="btn btn--primary btn--lg"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg> oliverkentsantos@outlook.com</a></div></div></section></main><footer class="footer"><div class="container footer__inner"><div class="footer__brand"><span class="footer__logo">[OKS]</span><span class="footer__name">Oliver Kent Santos</span></div><div class="footer__links"><a href="https://github.com/xxVertex" target="_blank" rel="noreferrer" class="footer__link"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg></a><a href="mailto:oliverkentsantos@outlook.com" class="footer__link"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg></a></div><div class="footer__copy">© 2026 Oliver Kent Santos</div></div></footer></div>
+    <script type="module" src="/src/main.jsx"></script>
+  
+
+</body></html>
