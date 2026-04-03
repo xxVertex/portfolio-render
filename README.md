@@ -22,17 +22,17 @@ Personal developer portfolio built with React, Vite, Framer Motion, and Recharts
 ```bash
 git clone https://github.com/xxVertex/portfolio.git
 cd portfolio
-npm install
-npm run dev
+npm run install:all && npm run build:all
+npm start
 ```
 
-Open [http://localhost:5173](http://localhost:5173).
+Open [http://localhost:3000](http://localhost:3000).
 
 ## Build
 
 ```bash
-npm run build
-npm run preview
+npm run install:all && npm run build:all
+npm start
 ```
 
 ## Customising
@@ -47,7 +47,7 @@ Edit that file to update everything across the site at once.
 
 ## Deploy
 
-Push to GitHub → import at [vercel.com](https://vercel.com) → done.
+Push to GitHub → import at [render.com](https://render.com) → done.
 
 ## License
 
