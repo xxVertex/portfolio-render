@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: portfolio
+    runtime: node
+    buildCommand: npm run install:all && npm run build:all
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 20

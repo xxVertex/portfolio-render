@@ -5,11 +5,16 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "install:all": "npm install && npm --prefix apps/spendr install && npm --prefix apps/skies install && npm --prefix apps/pixel-runner install && npm --prefix apps/world-forge install",
     "dev:all": "concurrently -n \"portfolio,spendr,skies,pixel-runner,world-forge\" -c \"cyan,green,blue,red,yellow\" \"vite\" \"cross-env PORT=3001 npm --prefix apps/spendr start\" \"cross-env PORT=3002 npm --prefix apps/skies start\" \"cross-env PORT=3003 npm --prefix apps/pixel-runner start\" \"cross-env PORT=3004 npm --prefix apps/world-forge start\"",
+    "build:apps": "npm --prefix apps/spendr run build && npm --prefix apps/skies run build && npm --prefix apps/pixel-runner run build && npm --prefix apps/world-forge run build",
+    "build:all": "vite build && npm run build:apps",
     "build": "vite build",
+    "start": "node server.js",
     "preview": "vite preview"
   },
   "dependencies": {
+    "express": "^4.18.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.3",
