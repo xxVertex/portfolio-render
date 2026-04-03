@@ -42,7 +42,7 @@ export const PROJECTS = [
     color: "#b8ff57",
     emoji: "💸",
     github: "https://github.com/xxVertex/expense-tracker",
-    liveUrl: "https://expense-tracker-miwz.onrender.com",
+    liveUrl: "http://localhost:3001",
     featured: true,
   },
   {
@@ -55,7 +55,7 @@ export const PROJECTS = [
     color: "#57b8ff",
     emoji: "☁️",
     github: "https://github.com/xxVertex/weather-app",
-    liveUrl: "https://weather-app-vcfz.onrender.com",
+    liveUrl: "http://localhost:3002",
     featured: true,
   },
   {
@@ -68,7 +68,7 @@ export const PROJECTS = [
     color: "#e94560",
     emoji: "🕹️",
     github: "https://github.com/xxVertex/pixel-runner",
-    liveUrl: "https://pixel-runner-6sb6.onrender.com",
+    liveUrl: "http://localhost:3003",
     featured: true,
   },
   {
@@ -81,7 +81,7 @@ export const PROJECTS = [
     color: "#c8a030",
     emoji: "🗺️",
     github: "https://github.com/xxVertex/world-map",
-    liveUrl: "https://world-map-bx8k.onrender.com",
+    liveUrl: "http://localhost:3004",
     featured: true,
   },
   {

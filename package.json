@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:all": "concurrently -n \"portfolio,spendr,skies,pixel-runner,world-forge\" -c \"cyan,green,blue,red,yellow\" \"vite\" \"cross-env PORT=3001 npm --prefix apps/spendr start\" \"cross-env PORT=3002 npm --prefix apps/skies start\" \"cross-env PORT=3003 npm --prefix apps/pixel-runner start\" \"cross-env PORT=3004 npm --prefix apps/world-forge start\"",
     "build": "vite build",
     "preview": "vite preview"
   },
@@ -20,6 +21,8 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.1",
+    "concurrently": "^8.2.0",
+    "cross-env": "^7.0.3",
     "vite": "^5.2.0"
   }
 }
