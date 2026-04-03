@@ -20,8 +20,8 @@ Personal developer portfolio built with React, Vite, Framer Motion, and Recharts
 ## Getting Started
 
 ```bash
-git clone https://github.com/xxVertex/portfolio.git
-cd portfolio
+git clone https://github.com/xxVertex/portfolio-render.git
+cd portfolio-render
 npm run install:all && npm run build:all
 npm start
 ```
