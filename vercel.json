@@ -1,10 +1,11 @@
 {
-  "version": 2,
   "buildCommand": "npm run install:all && npm run build:all",
-  "builds": [
-    { "src": "server.js", "use": "@vercel/node" }
-  ],
-  "routes": [
-    { "src": "/(.*)", "dest": "server.js" }
+  "outputDirectory": "dist",
+  "rewrites": [
+    { "source": "/spendr/(.*)",       "destination": "/spendr/index.html" },
+    { "source": "/skies/(.*)",        "destination": "/skies/index.html" },
+    { "source": "/pixel-runner/(.*)", "destination": "/pixel-runner/index.html" },
+    { "source": "/world-forge/(.*)",  "destination": "/world-forge/index.html" },
+    { "source": "/(.*)",              "destination": "/index.html" }
   ]
 }
