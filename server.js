@@ -29,4 +29,10 @@ app.get('*', (_req, res) => {
 })
 
 const PORT = process.env.PORT || 3000
-app.listen(PORT, () => console.log(`Running on port ${PORT}`))
+if (process.env.VERCEL) {
+  // Vercel: export the app as a serverless handler
+  export default app
+} else {
+  // Render / local
+  app.listen(PORT, () => console.log(`Running on port ${PORT}`))
+}
