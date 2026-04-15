@@ -1,0 +1,376 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+#a3r{height:660px;display:flex;flex-direction:column;background:#04040c;overflow:hidden}
+#vi{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:20px}
+#vc{flex:1;display:none;flex-direction:row;min-height:0}
+#oh{flex:1;overflow-y:auto;padding:8px;background:#0b0b18;border-right:1px solid #1a1a28;display:flex;flex-direction:column;gap:6px;scrollbar-width:thin;scrollbar-color:#1a1a28 #04040c}
+#rp{width:285px;display:flex;flex-direction:column;background:#06060f}
+#ec{flex:1;padding:8px;font-family:var(--font-mono);font-size:11px;overflow:hidden;background:#000;border-bottom:1px solid #1a1a28}
+#cl{height:195px;overflow-y:auto;padding:8px;border-bottom:1px solid #1a1a28;scrollbar-width:thin;scrollbar-color:#1a1a28 #06060f}
+#sb{padding:5px 10px;font-family:var(--font-mono);font-size:11px;color:#333;display:flex;justify-content:space-between;border-bottom:1px solid #111}
+#pi{padding:5px 10px;display:flex;gap:14px;align-items:center;border-top:1px solid #111}
+.pbd{width:8px;height:8px;border-radius:50%;background:#1a1a1a;transition:background .3s}
+.pbd.on{background:#00c85a;box-shadow:0 0 5px #00c85a44}
+.pbl{font-size:11px;color:#333;font-family:var(--font-mono)}
+.pb{width:58px;height:58px;background:#111120;border:1px solid #222234;border-radius:2px;cursor:pointer;display:flex;flex-direction:column;transition:transform .08s;user-select:none}
+.pb:hover{border-color:#2e2e48}
+.pb:active{transform:scale(.96)}
+.sw-led{height:16px;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:10px;letter-spacing:.5px;border-bottom:1px solid #0d0d1e;border-radius:2px 2px 0 0;transition:background .25s,color .25s}
+.sw-lbl{flex:1;display:flex;align-items:center;justify-content:center;font-size:11px;color:#999;letter-spacing:.3px;text-align:center;padding:2px;line-height:1.2;text-transform:uppercase}
+.pb[data-sw="off"] .sw-led{background:rgba(220,220,220,.07);color:#bbb}
+.pb[data-sw="off"] .sw-led::after{content:"OFF"}
+.pb[data-sw="on"] .sw-led{background:transparent;color:transparent}
+.pb[data-sw="avail"] .sw-led{background:rgba(0,200,90,.13);color:#00c87a}
+.pb[data-sw="avail"] .sw-led::after{content:"AVAIL";font-size:9px}
+.pb[data-sw="fault"] .sw-led{background:rgba(255,160,0,.13);color:#ffa000}
+.pb[data-sw="fault"] .sw-led::after{content:"FAULT"}
+.pb[data-sw="dim"]{opacity:.25;pointer-events:none}
+.sec{background:#0f0f1e;border:1px solid #1a1a2c;border-radius:3px;padding:7px}
+.sec-t{font-size:10px;letter-spacing:2px;color:#333;text-transform:uppercase;margin-bottom:7px;padding-bottom:4px;border-bottom:1px solid #141424}
+.srow{display:flex;gap:5px;align-items:flex-end;flex-wrap:wrap}
+.swrap{display:flex;flex-direction:column;align-items:center;gap:3px}
+.snm{font-size:10px;color:#555;text-align:center;text-transform:uppercase;letter-spacing:.3px;line-height:1.1}
+.rot{width:54px;height:54px;border-radius:50%;background:#111120;border:2px solid #1e1e32;position:relative;cursor:pointer;user-select:none}
+.rot:hover{border-color:#2a2a48}
+.rot-ln{position:absolute;width:2px;height:18px;background:#aaa;border-radius:1px;top:6px;left:calc(50% - 1px);transform-origin:bottom center;transition:transform .25s}
+.rot-lbl{font-size:11px;color:#0080ff;font-family:var(--font-mono);letter-spacing:.5px}
+.gd{position:absolute;inset:0;background:#7a1515;border:1px solid #c02020;border-radius:2px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:10px;color:rgba(255,255,255,.6);letter-spacing:1px;z-index:2;transition:opacity .3s,transform .3s;transform-origin:top center;text-transform:uppercase}
+.gd.lifted{opacity:0;transform:rotateX(85deg) translateY(-30px);pointer-events:none}
+.gwrap{position:relative;width:58px}
+.tog{width:28px;height:58px;background:#0e0e1c;border:1px solid #222234;border-radius:2px;position:relative;cursor:pointer;display:flex;flex-direction:column;user-select:none}
+.tog-lv{width:22px;height:20px;background:#383850;border-radius:2px;position:absolute;left:3px;transition:top .12s}
+.tog-lv.up{top:3px} .tog-lv.dn{top:35px}
+.ecr{display:flex;justify-content:space-between;margin-bottom:2px}
+.ecg{color:#00c87a} .eca{color:#ffa000} .ecw{color:#eee} .ecd{color:#333}
+.ecsep{border-top:1px solid #111;margin:4px 0}
+.ecbar{height:5px;background:#111;border-radius:2px;margin:2px 0;border:1px solid #1a1a1a;overflow:hidden}
+.ecbarfill{height:100%;border-radius:2px;transition:width .5s}
+.btn-intro{padding:10px 36px;background:transparent;border:1px solid #333;color:#999;font-family:var(--font-mono);font-size:13px;letter-spacing:3px;cursor:pointer;text-transform:uppercase;transition:all .3s}
+.btn-intro:hover{border-color:#ffa000;color:#ffa000}
+.cl-step{display:flex;align-items:flex-start;gap:6px;padding:2px 4px;margin-bottom:2px;border-radius:2px;font-size:11px;font-family:var(--font-mono);transition:background .2s}
+.cl-step.done{color:#1e5e1e} .cl-step.cur{background:rgba(0,120,255,.1);color:#eee}
+.cl-step.wai{color:#ffa000;animation:bl 1.2s ease-in-out infinite}
+.cl-step.pen{color:#222}
+@keyframes bl{0%,100%{opacity:1}50%{opacity:.4}}
+.cl-ic{width:12px;flex-shrink:0;margin-top:1px;font-size:11px}
+.pi-sep{width:1px;height:14px;background:#1a1a1a}
+</style>
+
+<h2 class="sr-only">A320 cockpit startup simulator — click switches on the overhead panel to follow the startup checklist and bring engines to idle</h2>
+
+<div id="a3r">
+
+<div id="vi">
+  <div style="font-size:28px;font-weight:500;letter-spacing:8px;color:var(--color-text-primary);text-transform:uppercase">Airbus A320</div>
+  <div style="font-size:12px;letter-spacing:4px;color:#ffa000;text-transform:uppercase;font-family:var(--font-mono)">Cockpit Simulator</div>
+  <div style="height:1px;width:200px;background:#1a1a2a;margin:8px 0"></div>
+  <div style="font-family:var(--font-mono);font-size:11px;color:#333;letter-spacing:2px">Reg: OE-LDC · VIE → NAP · FL360</div>
+  <div style="font-family:var(--font-mono);font-size:12px;color:#555;letter-spacing:2px;margin-top:4px">◆ COLD &amp; DARK ◆</div>
+  <button class="btn-intro" onclick="startSim()">Enter Cockpit</button>
+</div>
+
+<div id="vc">
+
+<div id="oh">
+
+<div class="sec">
+  <div class="sec-t">Electrical</div>
+  <div class="srow">
+    <div class="swrap"><div class="snm">BAT 1</div><div class="pb" data-sw="off" id="sw-b1" onclick="actBat(0)"><div class="sw-led"></div><div class="sw-lbl">BAT<br>1</div></div></div>
+    <div class="swrap"><div class="snm">BAT 2</div><div class="pb" data-sw="off" id="sw-b2" onclick="actBat(1)"><div class="sw-led"></div><div class="sw-lbl">BAT<br>2</div></div></div>
+    <div style="width:1px;height:40px;background:#1a1a28;margin:0 4px;align-self:center"></div>
+    <div class="swrap"><div class="snm">GEN 1</div><div class="pb" data-sw="off" id="sw-g1"><div class="sw-led"></div><div class="sw-lbl">GEN<br>1</div></div></div>
+    <div class="swrap"><div class="snm">GEN 2</div><div class="pb" data-sw="off" id="sw-g2"><div class="sw-led"></div><div class="sw-lbl">GEN<br>2</div></div></div>
+    <div class="swrap"><div class="snm">APU GEN</div><div class="pb" data-sw="off" id="sw-ag"><div class="sw-led"></div><div class="sw-lbl">APU<br>GEN</div></div></div>
+    <div class="swrap"><div class="snm">EXT PWR</div><div class="pb" data-sw="avail" id="sw-ep"><div class="sw-led"></div><div class="sw-lbl">EXT<br>PWR</div></div></div>
+    <div class="swrap"><div class="snm">BUS TIE</div><div class="pb" data-sw="on"><div class="sw-led"></div><div class="sw-lbl">BUS<br>TIE</div></div></div>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="sec-t">APU</div>
+  <div class="srow">
+    <div class="swrap">
+      <div class="snm">Master SW</div>
+      <div class="gwrap">
+        <div class="gd" id="apu-gd" onclick="liftGuard()">Guard</div>
+        <div class="pb" data-sw="off" id="sw-am" onclick="actApuMaster()"><div class="sw-led"></div><div class="sw-lbl">Master<br>SW</div></div>
+      </div>
+    </div>
+    <div class="swrap"><div class="snm">Start</div><div class="pb" data-sw="off" id="sw-as" onclick="actApuStart()"><div class="sw-led"></div><div class="sw-lbl">Start</div></div></div>
+    <div style="width:1px;height:40px;background:#1a1a28;margin:0 8px;align-self:center"></div>
+    <div class="swrap"><div class="snm">APU Bleed</div><div class="pb" data-sw="off" id="sw-ab" onclick="actApuBleed()"><div class="sw-led"></div><div class="sw-lbl">APU<br>Bleed</div></div></div>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="sec-t">Fuel</div>
+  <div class="srow">
+    <div class="swrap"><div class="snm">L 1</div><div class="pb" data-sw="off" id="sw-fl1" onclick="actFuel(0)"><div class="sw-led"></div><div class="sw-lbl">Pump<br>L1</div></div></div>
+    <div class="swrap"><div class="snm">CTR 1</div><div class="pb" data-sw="off" id="sw-fc1" onclick="actFuel(1)"><div class="sw-led"></div><div class="sw-lbl">Pump<br>CTR1</div></div></div>
+    <div class="swrap"><div class="snm">R 1</div><div class="pb" data-sw="off" id="sw-fr1" onclick="actFuel(2)"><div class="sw-led"></div><div class="sw-lbl">Pump<br>R1</div></div></div>
+    <div style="width:1px;height:40px;background:#1a1a28;margin:0 3px;align-self:center"></div>
+    <div class="swrap"><div class="snm">L 2</div><div class="pb" data-sw="off" id="sw-fl2" onclick="actFuel(3)"><div class="sw-led"></div><div class="sw-lbl">Pump<br>L2</div></div></div>
+    <div class="swrap"><div class="snm">CTR 2</div><div class="pb" data-sw="off" id="sw-fc2" onclick="actFuel(4)"><div class="sw-led"></div><div class="sw-lbl">Pump<br>CTR2</div></div></div>
+    <div class="swrap"><div class="snm">R 2</div><div class="pb" data-sw="off" id="sw-fr2" onclick="actFuel(5)"><div class="sw-led"></div><div class="sw-lbl">Pump<br>R2</div></div></div>
+    <div style="width:1px;height:40px;background:#1a1a28;margin:0 3px;align-self:center"></div>
+    <div class="swrap"><div class="snm">X Feed</div><div class="pb" data-sw="off" id="sw-xf"><div class="sw-led"></div><div class="sw-lbl">X<br>Feed</div></div></div>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="sec-t">Hydraulics</div>
+  <div class="srow">
+    <div style="font-size:11px;color:#2244aa;align-self:center;letter-spacing:1px;text-transform:uppercase">Blue</div>
+    <div class="swrap"><div class="snm">Elec Pump</div><div class="pb" data-sw="off" id="sw-hb" onclick="actHyd(0)"><div class="sw-led"></div><div class="sw-lbl">Elec<br>Pump</div></div></div>
+    <div style="font-size:11px;color:#226622;align-self:center;margin-left:6px;letter-spacing:1px;text-transform:uppercase">Green</div>
+    <div class="swrap"><div class="snm">Elec Pump</div><div class="pb" data-sw="off" id="sw-hg" onclick="actHyd(1)"><div class="sw-led"></div><div class="sw-lbl">Elec<br>Pump</div></div></div>
+    <div style="font-size:11px;color:#886600;align-self:center;margin-left:6px;letter-spacing:1px;text-transform:uppercase">Yellow</div>
+    <div class="swrap"><div class="snm">Elec Pump</div><div class="pb" data-sw="off" id="sw-hy" onclick="actHyd(2)"><div class="sw-led"></div><div class="sw-lbl">Elec<br>Pump</div></div></div>
+    <div class="swrap" style="margin-left:8px"><div class="snm">Eng 1A</div><div class="pb" data-sw="dim"><div class="sw-led"></div><div class="sw-lbl">Pump<br>1A</div></div></div>
+    <div class="swrap"><div class="snm">Eng 1B</div><div class="pb" data-sw="dim"><div class="sw-led"></div><div class="sw-lbl">Pump<br>1B</div></div></div>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="sec-t">ADIRS</div>
+  <div class="srow" style="gap:14px">
+    <div class="swrap"><div class="snm">ADIRU 1</div><div class="rot" onclick="actAdirs(0)"><div class="rot-ln" id="ad0"></div></div><div class="rot-lbl" id="ad0-lbl">OFF</div></div>
+    <div class="swrap"><div class="snm">ADIRU 2</div><div class="rot" onclick="actAdirs(1)"><div class="rot-ln" id="ad1"></div></div><div class="rot-lbl" id="ad1-lbl">OFF</div></div>
+    <div class="swrap"><div class="snm">ADIRU 3</div><div class="rot" onclick="actAdirs(2)"><div class="rot-ln" id="ad2"></div></div><div class="rot-lbl" id="ad2-lbl">OFF</div></div>
+    <div style="font-size:11px;color:#222;margin-left:8px;align-self:center;line-height:1.5;text-transform:uppercase;letter-spacing:.5px">Click to<br>cycle<br>OFF→NAV</div>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="sec-t">Lights</div>
+  <div class="srow">
+    <div class="swrap"><div class="snm">Beacon</div><div class="pb" data-sw="off" id="sw-bcn" onclick="actBeacon()"><div class="sw-led"></div><div class="sw-lbl">BCN</div></div></div>
+    <div class="swrap"><div class="snm">Strobe</div><div class="pb" data-sw="dim"><div class="sw-led"></div><div class="sw-lbl">Strobe</div></div></div>
+    <div class="swrap"><div class="snm">NAV</div><div class="pb" data-sw="dim"><div class="sw-led"></div><div class="sw-lbl">NAV</div></div></div>
+    <div class="swrap"><div class="snm">Logo</div><div class="pb" data-sw="dim"><div class="sw-led"></div><div class="sw-lbl">Logo</div></div></div>
+  </div>
+</div>
+
+<div class="sec" style="border-color:#2a1515">
+  <div class="sec-t" style="color:#5a2222">Engine Start</div>
+  <div class="srow" style="gap:16px;align-items:center">
+    <div class="swrap">
+      <div style="font-size:11px;color:#555;text-transform:uppercase;letter-spacing:.5px">On</div>
+      <div class="tog" onclick="actEngMaster(0)" id="tog-e1"><div class="tog-lv dn" id="lv-e1"></div></div>
+      <div style="font-size:11px;color:#555;text-transform:uppercase;letter-spacing:.5px">Off</div>
+      <div class="snm" style="margin-top:3px">ENG 1<br>Master</div>
+    </div>
+    <div class="swrap" style="margin-left:8px">
+      <div class="rot" onclick="actEngMode()" id="emk" style="width:60px;height:60px"><div class="rot-ln" id="eml" style="height:22px"></div></div>
+      <div class="rot-lbl" id="em-lbl">NORM</div>
+      <div class="snm">ENG Mode</div>
+      <div style="font-size:10px;color:#333;text-align:center;line-height:1.3;text-transform:uppercase">Crank/Norm<br>IGN-Start</div>
+    </div>
+    <div class="swrap">
+      <div style="font-size:11px;color:#555;text-transform:uppercase;letter-spacing:.5px">On</div>
+      <div class="tog" onclick="actEngMaster(1)" id="tog-e2"><div class="tog-lv dn" id="lv-e2"></div></div>
+      <div style="font-size:11px;color:#555;text-transform:uppercase;letter-spacing:.5px">Off</div>
+      <div class="snm" style="margin-top:3px">ENG 2<br>Master</div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<div id="rp">
+<div id="ec">
+  <div style="font-size:11px;letter-spacing:3px;text-align:center;color:#aaa;border-bottom:1px solid #111;padding-bottom:5px;margin-bottom:6px;text-transform:uppercase" id="ec-title">STS</div>
+  <div id="ec-body" style="color:#222;text-align:center;padding-top:20px;font-size:11px">— NO POWER —</div>
+</div>
+<div id="cl">
+  <div style="font-size:10px;letter-spacing:2px;color:#444;margin-bottom:6px;text-transform:uppercase">▸ Startup Checklist</div>
+  <div id="cl-items"></div>
+</div>
+<div id="sb"><span id="sb-phase">COLD &amp; DARK</span><span id="sb-time"></span></div>
+<div id="pi">
+  <div class="pbd" id="pi-bat"></div><div class="pbl">BAT</div>
+  <div class="pi-sep"></div>
+  <div class="pbd" id="pi-apu"></div><div class="pbl">APU</div>
+  <div class="pi-sep"></div>
+  <div class="pbd" id="pi-eng"></div><div class="pbl">ENG</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<script>
+const S = {
+  bat:[false,false],
+  guard:false,apuMaster:false,apuStart:false,apuT:0,apuAvail:false,apuBleed:false,
+  fuel:[false,false,false,false,false,false],
+  hyd:[false,false,false],
+  adirs:[0,0,0],
+  beacon:false,
+  engMode:1,
+  engMaster:[false,false],
+  engT:[0,0],engState:[0,0],
+  engN2:[0,0],engN1:[0,0],engEGT:[0,0],engFF:[0,0]
+}
+
+const ADIRS_A = [-120,0,120]
+const ADIRS_L = ['OFF','NAV','ATT']
+const EM_A = [-60,0,60]
+const EM_L = ['CRANK','NORM','IGN/START']
+
+const PROC = [
+  {t:'BAT 1 → ON', d:()=>S.bat[0]},
+  {t:'BAT 2 → ON', d:()=>S.bat[1]},
+  {t:'APU MASTER guard → open', d:()=>S.guard},
+  {t:'APU MASTER SW → ON', d:()=>S.apuMaster},
+  {t:'APU START → ON', d:()=>S.apuStart||S.apuAvail},
+  {t:'Wait: APU AVAIL...', d:()=>S.apuAvail, w:true},
+  {t:'APU BLEED → ON', d:()=>S.apuBleed},
+  {t:'All fuel pumps → ON', d:()=>S.fuel.every(v=>v)},
+  {t:'HYD pumps → ON (all 3)', d:()=>S.hyd.every(v=>v)},
+  {t:'ADIRS 1, 2, 3 → NAV', d:()=>S.adirs.every(v=>v===1)},
+  {t:'Beacon → ON', d:()=>S.beacon},
+  {t:'ENG MODE → IGN/START', d:()=>S.engMode===2},
+  {t:'ENG 1 MASTER → ON', d:()=>S.engMaster[0]},
+  {t:'Wait: ENG 1 IDLE...', d:()=>S.engState[0]===2, w:true},
+  {t:'ENG 2 MASTER → ON', d:()=>S.engMaster[1]},
+  {t:'Wait: ENG 2 IDLE...', d:()=>S.engState[1]===2, w:true},
+  {t:'ENG MODE → NORM', d:()=>S.engMode===1&&S.engState[0]===2},
+  {t:'APU BLEED → OFF', d:()=>!S.apuBleed&&S.engState.some(v=>v===2)},
+  {t:'APU MASTER → OFF', d:()=>!S.apuMaster&&!S.apuStart},
+]
+
+let aC=null
+function ga(){if(!aC)aC=new(window.AudioContext||window.webkitAudioContext)();return aC}
+function click(){try{const c=ga(),b=c.createBuffer(1,512,c.sampleRate),d=b.getChannelData(0);for(let i=0;i<512;i++)d[i]=(Math.random()*2-1)*Math.exp(-i/60);const s=c.createBufferSource(),g=c.createGain();s.buffer=b;s.connect(g);g.connect(c.destination);g.gain.value=.25;s.start()}catch(e){}}
+let apuOsc=null,apuGn=null
+function apuSound(){try{const c=ga();apuOsc=c.createOscillator();apuGn=c.createGain();apuOsc.connect(apuGn);apuGn.connect(c.destination);apuOsc.frequency.setValueAtTime(180,c.currentTime);apuOsc.frequency.linearRampToValueAtTime(700,c.currentTime+20);apuGn.gain.setValueAtTime(.004,c.currentTime);apuGn.gain.linearRampToValueAtTime(.03,c.currentTime+8);apuGn.gain.linearRampToValueAtTime(.022,c.currentTime+20);apuOsc.start()}catch(e){}}
+let eOsc=[null,null]
+function engSound(i){try{const c=ga(),o=c.createOscillator(),g=c.createGain(),f=c.createBiquadFilter();f.type='lowpass';f.frequency.value=300;o.connect(f);f.connect(g);g.connect(c.destination);const b=i===0?80:86;o.frequency.setValueAtTime(b,c.currentTime);o.frequency.linearRampToValueAtTime(b+160,c.currentTime+35);g.gain.setValueAtTime(.003,c.currentTime);g.gain.linearRampToValueAtTime(.055,c.currentTime+35);o.start();eOsc[i]=o}catch(e){}}
+
+function sw(id,st){const e=document.getElementById(id);if(e)e.dataset.sw=st}
+function css(id,c){const e=document.getElementById(id);if(e)e.className=c}
+
+function actBat(i){if(!S.bat.some(v=>v)&&!S.bat[i])ga();click();S.bat[i]=!S.bat[i];sw('sw-b'+(i+1),S.bat[i]?'on':'off');rend()}
+function liftGuard(){if(S.guard)return;click();S.guard=true;document.getElementById('apu-gd').classList.add('lifted');rend()}
+function actApuMaster(){if(!S.guard){alert('Lift the guard first!');return}if(!S.bat.some(v=>v))return;click();S.apuMaster=!S.apuMaster;if(!S.apuMaster){S.apuStart=false;S.apuAvail=false;S.apuBleed=false;if(apuOsc)try{apuOsc.stop()}catch(e){}}sw('sw-am',S.apuMaster?'on':'off');rend()}
+function actApuStart(){if(!S.apuMaster||S.apuAvail)return;click();S.apuStart=true;S.apuT=Date.now();apuSound();sw('sw-as','on');rend()}
+function actApuBleed(){if(!S.apuAvail&&!S.apuBleed)return;click();S.apuBleed=!S.apuBleed;sw('sw-ab',S.apuBleed?'on':'off');rend()}
+function actFuel(i){if(!S.bat.some(v=>v))return;click();S.fuel[i]=!S.fuel[i];const ids=['sw-fl1','sw-fc1','sw-fr1','sw-fl2','sw-fc2','sw-fr2'];sw(ids[i],S.fuel[i]?'on':'off');rend()}
+function actHyd(i){if(!S.bat.some(v=>v))return;click();S.hyd[i]=!S.hyd[i];const ids=['sw-hb','sw-hg','sw-hy'];sw(ids[i],S.hyd[i]?'on':'off');rend()}
+function actAdirs(i){if(!S.bat.some(v=>v))return;click();S.adirs[i]=(S.adirs[i]+1)%3;document.getElementById('ad'+i).style.transform='rotate('+ADIRS_A[S.adirs[i]]+'deg)';document.getElementById('ad'+i+'-lbl').textContent=ADIRS_L[S.adirs[i]];rend()}
+function actBeacon(){if(!S.bat.some(v=>v))return;click();S.beacon=!S.beacon;sw('sw-bcn',S.beacon?'on':'off');rend()}
+function actEngMode(){if(!S.bat.some(v=>v))return;click();S.engMode=(S.engMode+1)%3;document.getElementById('eml').style.transform='rotate('+EM_A[S.engMode]+'deg)';document.getElementById('em-lbl').textContent=EM_L[S.engMode];rend()}
+function actEngMaster(i){if(!S.apuAvail||S.engMode!==2)return;click();if(S.engMaster[i])return;S.engMaster[i]=true;S.engState[i]=1;S.engT[i]=Date.now();document.getElementById('lv-e'+( i+1)).className='tog-lv up';engSound(i);rend()}
+
+function tick(){
+  for(let i=0;i<2;i++){
+    if(S.engState[i]===1){
+      const el=(Date.now()-S.engT[i])/1000,tot=35,p=Math.min(el/tot,1);
+      S.engN2[i]=p*58.5;
+      S.engN1[i]=Math.max(0,(el-10)/25)*21.5;
+      if(el<12)S.engEGT[i]=el*18;
+      else if(el<18)S.engEGT[i]=216+(el-12)*80;
+      else if(el<24)S.engEGT[i]=696-(el-18)*40;
+      else S.engEGT[i]=456;
+      S.engFF[i]=p*820;
+      if(p>=1){S.engState[i]=2;S.engN2[i]=58.5;S.engN1[i]=21.5;S.engEGT[i]=456;S.engFF[i]=820;sw('sw-g'+(i+1),'on')}
+    }
+  }
+  if(S.apuStart&&!S.apuAvail){
+    const pct=(Date.now()-S.apuT)/200;
+    if(pct>=100){S.apuAvail=true;sw('sw-as','avail');sw('sw-ag','on')}
+  }
+  rend()
+}
+
+function curStep(){for(let i=0;i<PROC.length;i++)if(!PROC[i].d())return i;return PROC.length}
+
+function rend(){
+  const has=S.bat.some(v=>v)||S.apuAvail
+  document.getElementById('pi-bat').className='pbd'+(S.bat.some(v=>v)?' on':'')
+  document.getElementById('pi-apu').className='pbd'+(S.apuAvail?' on':'')
+  document.getElementById('pi-eng').className='pbd'+(S.engState.some(v=>v===2)?' on':'')
+  const cur=curStep()
+  let cl=''
+  for(let i=0;i<PROC.length;i++){
+    const done=i<cur,isc=i===cur,isw=isc&&PROC[i].w
+    const cls=done?'done':isc?(isw?'wai':'cur'):'pen'
+    const ic=done?'✓':isc?(isw?'⌛':'▶'):'○'
+    cl+=`<div class="cl-step ${cls}"><div class="cl-ic">${ic}</div><span>${PROC[i].t}</span></div>`
+  }
+  if(cur>=PROC.length)cl+=`<div class="cl-step done" style="color:#00c87a;margin-top:6px"><div class="cl-ic">★</div><span>STARTUP COMPLETE — engines at idle</span></div>`
+  document.getElementById('cl-items').innerHTML=cl
+  const itms=document.getElementById('cl-items').children
+  if(itms[Math.max(0,cur-1)])itms[Math.max(0,cur-1)].scrollIntoView({behavior:'smooth',block:'nearest'})
+
+  const phases=['COLD & DARK','BATTERIES ON','APU STARTING','APU READY','ENG STARTING','ENGINES IDLE']
+  let ph=0
+  if(S.bat.some(v=>v))ph=1
+  if(S.apuStart)ph=2
+  if(S.apuAvail)ph=3
+  if(S.engState.some(v=>v===1))ph=4
+  if(S.engState.every(v=>v===2))ph=5
+  document.getElementById('sb-phase').textContent=phases[ph]
+
+  const et=document.getElementById('ec-title'),eb=document.getElementById('ec-body')
+  if(!has){et.textContent='STS';eb.innerHTML='<div style="color:#222;text-align:center;padding-top:20px">— NO POWER —</div>';return}
+
+  if(S.engState.some(v=>v>0)){
+    et.textContent='ENGINE'
+    const sl=(s)=>s===0?'<span class="ecd">OFF</span>':s===1?'<span class="eca">STARTING</span>':'<span class="ecg">IDLE</span>'
+    const bar=(v,max,hot)=>`<div class="ecbar"><div class="ecbarfill" style="width:${Math.min(100,v/max*100).toFixed(1)}%;background:${hot&&v>80?'#ffa000':'#00c87a'}"></div></div>`
+    eb.innerHTML=`
+      <div class="ecr"><span style="color:#666">ENG 1</span>${sl(S.engState[0])}</div><div class="ecsep"></div>
+      <div class="ecr"><span style="color:#555"> N1</span><span class="ecg">${S.engN1[0].toFixed(1)}%</span></div>${bar(S.engN1[0],21.5,false)}
+      <div class="ecr"><span style="color:#555"> N2</span><span class="ecg">${S.engN2[0].toFixed(1)}%</span></div>${bar(S.engN2[0],58.5,false)}
+      <div class="ecr"><span style="color:#555"> EGT</span><span class="${S.engEGT[0]>700?'eca':'ecg'}">${Math.round(S.engEGT[0])}°C</span></div>${bar(S.engEGT[0],800,true)}
+      <div class="ecr"><span style="color:#555"> FF</span><span class="ecg">${Math.round(S.engFF[0])} KG/H</span></div>
+      <div class="ecsep" style="margin:5px 0"></div>
+      <div class="ecr"><span style="color:#666">ENG 2</span>${sl(S.engState[1])}</div><div class="ecsep"></div>
+      <div class="ecr"><span style="color:#555"> N1</span><span class="ecg">${S.engN1[1].toFixed(1)}%</span></div>${bar(S.engN1[1],21.5,false)}
+      <div class="ecr"><span style="color:#555"> N2</span><span class="ecg">${S.engN2[1].toFixed(1)}%</span></div>${bar(S.engN2[1],58.5,false)}
+      <div class="ecr"><span style="color:#555"> EGT</span><span class="${S.engEGT[1]>700?'eca':'ecg'}">${Math.round(S.engEGT[1])}°C</span></div>${bar(S.engEGT[1],800,true)}
+      <div class="ecr"><span style="color:#555"> FF</span><span class="ecg">${Math.round(S.engFF[1])} KG/H</span></div>`
+    return
+  }
+  if(S.apuStart){
+    et.textContent='APU'
+    const pct=S.apuAvail?100:Math.min(99,Math.round((Date.now()-S.apuT)/200))
+    eb.innerHTML=`
+      <div class="ecr"><span style="color:#666">APU</span><span class="${S.apuAvail?'ecg':'eca'}">${S.apuAvail?'AVAIL':'STARTING'}</span></div><div class="ecsep"></div>
+      <div class="ecr"><span style="color:#555"> N</span><span class="${S.apuAvail?'ecg':'eca'}">${pct}%</span></div>
+      <div class="ecbar"><div class="ecbarfill" style="width:${pct}%;background:${S.apuAvail?'#00c87a':'#ffa000'}"></div></div>
+      <div class="ecsep" style="margin:5px 0"></div>
+      <div class="ecr"><span style="color:#555">APU Bleed</span><span class="${S.apuBleed?'ecg':'ecd'}">${S.apuBleed?'ON':'OFF'}</span></div>
+      <div class="ecr"><span style="color:#555">Bleed PSI</span><span class="${S.apuBleed?'ecg':'ecd'}">${S.apuBleed?40:0}</span></div>
+      <div class="ecr"><span style="color:#555">Fuel CTR</span><span class="${S.fuel[1]||S.fuel[4]?'ecg':'eca'}">${S.fuel[1]||S.fuel[4]?'PRES':'LO PRES'}</span></div>`
+    return
+  }
+  et.textContent='ELEC'
+  eb.innerHTML=`
+    <div class="ecr"><span style="color:#666">DC BUS 1</span><span class="${S.bat[0]?'ecg':'ecd'}">${S.bat[0]?'NORM':'OFF'}</span></div>
+    <div class="ecr"><span style="color:#666">DC BUS 2</span><span class="${S.bat[1]?'ecg':'ecd'}">${S.bat[1]?'NORM':'OFF'}</span></div>
+    <div class="ecr"><span style="color:#666">AC BUS 1</span><span class="ecd">OFF</span></div>
+    <div class="ecr"><span style="color:#666">AC BUS 2</span><span class="ecd">OFF</span></div>
+    <div class="ecsep"></div>
+    <div class="ecr"><span style="color:#555"> BAT 1</span><span class="${S.bat[0]?'ecg':'ecd'}">${S.bat[0]?'26.5V':'OFF'}</span></div>
+    <div class="ecr"><span style="color:#555"> BAT 2</span><span class="${S.bat[1]?'ecg':'ecd'}">${S.bat[1]?'26.5V':'OFF'}</span></div>
+    <div class="ecsep"></div>
+    <div class="ecr"><span style="color:#555"> GEN 1</span><span class="ecd">OFF</span></div>
+    <div class="ecr"><span style="color:#555"> GEN 2</span><span class="ecd">OFF</span></div>
+    <div class="ecr"><span style="color:#555"> APU GEN</span><span class="${S.apuAvail?'ecg':'ecd'}">${S.apuAvail?'ON':'OFF'}</span></div>
+    <div class="ecr"><span style="color:#555"> EXT PWR</span><span class="eca">AVAIL</span></div>`
+}
+
+function startSim(){
+  try{ga()}catch(e){}
+  document.getElementById('vi').style.display='none'
+  const vc=document.getElementById('vc')
+  vc.style.display='flex'
+  setInterval(tick,300)
+  rend()
+}
+</script>
