@@ -110,6 +110,19 @@ export const PROJECTS = [
     liveUrl: "https://xxvertex.github.io/A320-Startup-Simulator/",
     featured: true,
   },
+  {
+    id: 7,
+    title: "Sand Sandbox",
+    subtitle: "Interactive Sand Simulation",
+    description: "An interactive sand simulation where you can create and manipulate sand particles.",
+    tags: ["React", "Canvas API"],
+    category: "Creative",
+    color: "#57b8ff",
+    emoji: "🪨",
+    github: "https://github.com/xxVertex/sand-sandbox",
+    liveUrl: "https://xxvertex.github.io/sand-sandbox/",
+    featured: false,
+  },
 ];
 
 export const EXPERIENCE = [
